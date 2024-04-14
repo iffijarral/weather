@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/main.js" defer></script>
+    <title>API Consumption</title>
+</head>
+<body>
+    <header>
+        <h1 class="container"> API Consumption </h1>
+    </header>
+    <main class="container">
+        <section>
+            <form id="frmTown" action="">
+                <div>
+                    <label for="town">Town</label>
+                    <input type="text" id="town" name="town" required >
+                </div>
+                
+                <div>
+                    <input type="submit" value="Town Information">
+                </div>
+            </form>
+        </section>
+        <section id="weatherSection" data-has-content="false">
+            <div id="weatherContainer">
+                
+            </div>
+            <div id="mapContainer">                
+            </div>
+        </section>
+        <section id="eventsSection" data-has-content="false">           
+            <div id="events-heading">
+                <h3>Events</h3>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

@@ -1,0 +1,157 @@
+ACID Properties 
+
+ACID properties are a set of characteristics that ensure data reliability and consistency in relational database management systems1. The term ACID is actually the acronym for Atomicity, Consistency, Isolation and Durability. These insure that the data in database is reliable as well as consistent. In order to maintain consistency in database, certain properties are considered, these properties are ACID properties.  
+
+ 
+
+Before elaborating these properties one by one, let’s try to understand the basic term “Transaction”. Because this term is used a lot in the explanain of ACID properties. 
+
+ 
+
+Transaction 
+
+A transaction is a single logical unit of work that accesses and possibly modifies the contents of a database2.  This unit of work is often a series of one or more operations that need to be executed together as a single, indivisible unit. We try to understand it with following example, 
+
+Let’s take an example of a courier comapany, which delivers packages to destinations. The very first task is to place an order, which consists of more or less following operations 
+
+Recording and saving the receiver’s information 
+
+Saving the sender’s information 
+
+Saving the weight and other dimentions of package 
+
+Performing and saving the payment 
+
+Placing or saving the order 
+
+ So all of these form the single transaction.  
+
+ 
+
+Now let’s talk about ACID properties one by one.   
+
+Atomicity:  
+
+	Atomicity is “Either all or none” i.e. all the operations belonging to a transaction must be successfully executed. If even a single operation out of other operations (that are collectively forming a transaction) fails, the transaction will be failed and all other successfull operations will be reverted to the previous stabil state.  
+
+And the failed transaction can NEVER be resumed. It will always be restarted. For example during the execution of a transaction, at some point internet got disconnected. In this case after connecting to internet, the transaction will never ever resume from that point where the internet got disconnected. The transaction will restart, and all the operations belonging to this transaction gonna start from first operation.  
+
+If we take the above mentioned example, where in a courier company the very first transaction is being taking place that is to place the delivery order. In that example there are 5 operations forming a transaction. If the 5th operation gets failed for some reason, then even the previous 4 operations have been performed successfully, the transaction will be failed and all previous operations will be reverted or rolled back. And next time the transaction will start from first operation. This insures that the data always remains consistent.  
+
+ 
+
+Consistency: 
+
+    This means that integrity constraints must be maintained so that the database is consistent before and after the transaction3. It also means that the total out come or result of a transaction must be equal to the total before the transaction started. We try to understand this with  the help of previous example.    
+
+Before the start of transaction let’s say the customer had 1,000 kr + package, where the company had 20,000 kr. And the total is 21,000 kr + package. Let’s say company charges 100 kr as a delivery charges. So after this transaction the custerms has 900 kr and the company has 20,100 kr + package. The total is 21,000 + package, which means the total out come before and after the transaction is same. Which shows consistent state.  
+
+Isolation: 
+
+Multiple transactions can occur concurrently without leading to the inconsistency of the database state4. This property ensures that the execution of transactions concurrently will result in a state that is equivalent to a state achieved these were executed serially in some order. Isolation ensures that these transactions do not interfere with each other, maintaining the integrity of each transaction. This way multiple customers placing orders or making payments simultaneously. 
+
+ 
+
+Durability: 
+
+	This property ensures that once the transaction has completed execution, the updates and modifications to the database are stored in and written to disk and they persist even if a system failure occurs5. For instance, if the transaction of placing delivery order completes, this information should not disappear upon system or software failure. 
+
+ACID properties insure that transactions are executed in a reliable and consistent manner, even in the presence of system failures, network issues, or other problems. 
+
+Implementing ACID Properties in DBMS: 
+
+	Following are the common ways to implement ACID properties in a DBMS: 
+
+Locking: This mechanism prevents the data from modifying, if a transaction reserves it. The data becomes exclusivly available to given transaction, which insures the consistency and isolation. 
+
+Logging: A log is maintained for all database changes, which helps to roll back transactions in case of a failure. And is helpful for databse recovery.  
+
+Checkpointing: In the process of data recovery, the checkpoints play a vital role. If a system fails, DBMS uses the information stored in checkpoints to recover the database till last known stage. The checkpoint interval set to shorter duration increases the faster recovery, where frequent checkpoints descrease the performance. 
+
+ 
+
+ Benefits of ACID Properties 
+
+	The ACID properties are neccessary to insure the reliability of a database. They make sure the successfull completion of transactions, the database consistency, and the changes made by transactions are permanent. Which makes databases ideal for storing important data. 
+
+ 
+
+Drawbacks of ACID Properties 
+
+	The ACID properties can cause the deficiency by increasing the complexity and slowing down the performance of database. As logging and frequent checkpoints increase the overhead to the database, and locking can prevent transactions to access the same data.  
+
+ 
+
+Conclusion 
+
+ACID properties are a set of principles which insure the reliable and consistent database. There are different techniques to implement them, where each of them has it’s own pros and cons. The best approach depends on specific database requirements.  
+
+ 
+
+Database design for a Courier company 
+
+I hereby try to design the relational database design for a courier company. It’s all according to my perception and understanding of courier business.  
+
+Following is the entity relationship diagram... 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+Following are sample joins... 
+
+// Get customers along with associated packages 
+
+SELECT * FROM customers 
+
+INNER JOIN packages 
+
+ON packages.customer_id = customers.customer_id;  
+
+ 
+
+// Fetch the employee name, route number, and job status for employees associated with specific routes 
+
+SELECT e.employee_name, r.route_number, j.job_status FROM employees e 
+
+INNER JOIN routes_employees re 
+
+ON e.employee_id = re.employee_id 
+
+INNER JOIN routes r 
+
+ON r.id = re.route_id 
+
+INNER JOIN jobs j 
+
+ON J.route_id = r.route_id 
+
+ 
+
+// Fetch information about orders along with their associated packages. 
+
+SELECT * FROM orders r 
+
+INNER JOIN orders_packages op 
+
+ON r.order_id = op.order_id 
+
+INNER JOIN packages p  
+
+ON 
+
+op.package_id = p.package_id AND 
+
+Op.customer_id_sender = p.customer_id_sender AND 
+
+Op.customer_id_receiver = p.customer_id_receiver 
