@@ -1,10 +1,10 @@
 'use strict';
 
-const mapKey = 'AIzaSyD_rcrSVXf04LRhC_A60JgX2Af1QW2rKLg';
+const mapKey = '';
 
-const weatherKey = 'c6c4517f539b755c5edd4a3f319d52e9';
+const weatherKey = '';
 
-const ticketMasterKey = 'wbpJGSkpjl5DN3GpY31gGmebFl7t83rx';
+const ticketMasterKey = '';
 
 
 // Handle the form submission
